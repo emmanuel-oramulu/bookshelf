@@ -1,0 +1,116 @@
+.streakWrapper {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .streakHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .streakTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .streakCount {
+    background: var(--accent-soft);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .streakMessage {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+  }
+
+  .progressContainer {
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progressBar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+
+  .circles {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .circle {
+    flex: 1;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    transition: all 0.3s;
+  }
+
+  .active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(232,
+      149,
+      109,
+      0.4);
+  }
+
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 999;
+    white-space: nowrap;
+    animation: fadeInOut 3s ease forwards;
+  }
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0; transform: translateX(-50%) translateY(-10px);
+    }
+    15% {
+      opacity: 1; transform: translateX(-50%) translateY(0);
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }

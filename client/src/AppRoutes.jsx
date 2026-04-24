@@ -10,8 +10,9 @@ import Notifications from './pages/Notifications';
 import BookDetail from './pages/BookDetail';
 import Me from './pages/Me';
 import Settings from './pages/Settings';
+import Search from './pages/Search';
 
-const HIDE_NAVBAR = ['/notifications', '/settings'];
+const HIDE_NAVBAR = ['/notifications', '/settings', '/search'];
 
 function AppRoutes( {
   books, addBook, setBooks, updateBook
@@ -38,6 +39,8 @@ function AppRoutes( {
     {
       path: '/settings', element: <Settings />
     },
+    {
+      path: '/search', element: <Search books={books} />},
   ]);
 
   const showNavbar = !HIDE_NAVBAR.some(path => location.pathname.startsWith(path)) && !location.pathname.match(/^\/books\/\d+/);

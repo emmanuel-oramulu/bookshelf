@@ -87,17 +87,25 @@ function AddBook( {
       showToast('Please fill in title and author', 'error');
       return;
     }
-    if (Number(form.currentPage) > Number(form.totalPages)) {
+
+    const currentPage = Number(form.currentPage);
+    const totalPages = Number(form.totalPages);
+
+    if (currentPage > totalPages) {
       showToast('Current page cannot exceed total pages', 'error');
       return;
     }
-    onAdd( {
+
+    const cleanedData = {
       ...form,
       id: Date.now(),
       rating: Number(form.rating),
-      totalPages: Number(form.totalPages),
-      currentPage: Number(form.currentPage)
-    });
+      title: form.title.trim(),
+      author: form.author.trim(),
+      currentPage,
+      totalPages
+    };
+    onAdd(cleanedData);
 
     showToast('Book added successfully! 📚', 'success');
     navigate('/books');

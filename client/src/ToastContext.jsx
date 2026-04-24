@@ -24,7 +24,7 @@ function ToastProvider ( {
       setToast({
         show: false, msg: '', type: ''
       });
-    }, 5000)
+    }, 10000)
   }
 
   return(

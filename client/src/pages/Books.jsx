@@ -3,6 +3,9 @@ import {
   useEffect,
   useRef
 } from 'react';
+import {
+  useNavigate
+} from 'react-router';
 import BookCard from '../components/BookCard';
 import PageTransition from '../components/PageTransition.jsx';
 import styles from './Books.module.css';
@@ -10,7 +13,7 @@ import styles from './Books.module.css';
 const FILTERS = ['All', 'Reading', 'Completed', 'Want to Read'];
 
 const FILTER_LABELS = {
-  'All': 'All',
+  'All': '✨ All',
   'Reading': '📖 Reading',
   'Completed': '✅ Completed',
   'Want to Read': '🔖 Want to Read',
@@ -19,111 +22,91 @@ const FILTER_LABELS = {
 function Books( {
   books
 }) {
+  const navigate = useNavigate();
   const [filter,
     setFilter] = useState('All');
-  const [search,
-    setSearch] = useState('');
-  const searchInputRef = useRef(null);
 
-  // Auto-focus search on mount
-  useEffect(() => {
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  },
-    []);
-    
-     
+  const filtered = books.filter(book => filter === 'All' || book.status === filter);
 
-  const filtered = books
-  .filter(book => filter === 'All' || book.status === filter)
-  .filter(book =>
-    book.title.toLowerCase().includes(search.toLowerCase()) ||
-    book.author.toLowerCase().includes(search.toLowerCase())
-  );
+  const showcaseBooks = books.reverse().slice(0, 3);
 
   return (
     <PageTransition>
       <div className={styles.bookPage}>
-        <div className={styles.stickyHeader}>
-          <div className={styles.searchWrapper}>
-  <span className={styles.searchIcon}>🔍</span>
-  <input
-    ref={searchInputRef}
-    type="text"
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    placeholder="Search by title or author..."
-    className={styles.searchInput}
-  />
-  {search && (
-    <button 
-      type="button" 
-      className={styles.clearBtn} 
-      onClick={() => {
-        setSearch('');
-        searchInputRef.current.focus(); // Keep the keyboard open on mobile
-      }}
-      aria-label="Clear search"
-    >
-      {/* Modern Close Icon SVG */}
-      <svg 
-        width="14" 
-        height="14" 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="3" 
-        strokeLinecap="round" 
-        strokeLinejoin="round"
-      >
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-  )}
-</div>
-
-
-        <div className={styles.filterBar}>
-          {FILTERS.map(status => (
-            <button
-              key={status}
-              className={`${styles.filterBtn} ${filter === status ? styles.filterBtnActive: ''}`}
-              onClick={() => setFilter(status)}
-              >
-              {FILTER_LABELS[status]}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.resultsInfo}>
-        Showing {filtered.length} {filtered.length === 1 ? 'book': 'books'}
-      </div>
-
-      <div className={styles.bookList}>
-        {filtered.length === 0 ? (
-          <div className={styles.emptyState}>
-            <p className={styles.emptyIcon}>
-              🕵️‍♂️
-            </p>
-            <p className={styles.emptyTitle}>
-              No matches found
-            </p>
-            <p className={styles.emptySubtitle}>
-              Try adjusting your search or filters
-            </p>
+        <div className={styles.header}>
+          <div className={styles.title}>
+            My Books
           </div>
-        ): (
-          filtered.map(book => (
-            <BookCard key={book.id} book={book} />
+          <div
+            className={styles.searchIcon}
+            onClick={() => navigate('/search')}>
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" /></svg>
+          </div>
+        </div>
+        <div className={styles.showcase}>
+          {showcaseBooks && (showcaseBooks.map(b => (
+            <div
+              key={b.id}
+              className={styles.showcaseItem}
+              >
+              <div className={styles.pictureFrame}></div>
+              <div className={styles.wrapper}>
+                <div className={styles.avatar}>
+                  📖
+                </div>
+                <div className={styles.details}>
+                  <span className={styles.showcaseTitle}>{b.title}</span>
+                  <span className={styles.showcaseDes}>{b.author}</span>
+                </div>
+              </div>
+            </div>
           ))
-        )}
+          )
+          }
+
+        </div>
+        <div className={styles.stickyHeader}>
+
+          <div className={styles.filterBar}>
+            {FILTERS.map(status => (
+              <button
+                key={status}
+                className={`${styles.filterBtn} ${filter === status ? styles.filterBtnActive: ''}`}
+                onClick={() => setFilter(status)}
+                >
+                {FILTER_LABELS[status]}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.resultsInfo}>
+          Showing {filtered.length} {filtered.length === 1 ? 'book': 'books'}
+        </div>
+
+        <div className={styles.bookList}>
+          {filtered.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p className={styles.emptyIcon}>
+                🕵️‍♂️
+              </p>
+              <p className={styles.emptyTitle}>
+                No matches found
+              </p>
+              <p className={styles.emptySubtitle}>
+                Try adjusting your search or filters
+              </p>
+            </div>
+          ): (
+            filtered.map(book => (
+              <BookCard key={book.id} book={book} />
+            ))
+          )}
+        </div>
+        <progress value={75} max={100} />
       </div>
-    </div>
-  </PageTransition>
-);
+    </PageTransition>
+  );
 }
 
 export default Books;

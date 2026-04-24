@@ -1,81 +1,155 @@
 .bookPage {
   padding-bottom: 100px;
+  padding-top: 130px;
   /* Space for Navbar */
   min-height: 100vh;
-  background-image: radial-gradient(circle, #4a3428 1px, transparent 1px);
-  background-attachment: fixed;
-  background-size: 20px 20px;
+
   opacity: 1;
   z-index: -1;
 }
 
-.stickyHeader {
-  position: sticky;
+.header {
+  position: fixed;
   top: 0;
-  z-index: 100;
-  background: var(--bg-primary);
-  padding: 20px 16px 12px;
-  border-bottom: 1px solid var(--border);
+  left: 0;
+  right: 0;
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 13px;
+
+  height: 100px;
+
+  background: var(--bg-primary);
+  z-index: 200;
+  padding: 30px 20px 15px;
 }
 
-.searchWrapper {
-  display: flex;
-  align-items: center;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 0 16px;
-  height: 48px;
+.title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--text-primary);
+  -webkit-text-stroke: 2px var(--text-primary);
+  letter-spacing: 1px;
 }
 
 .searchIcon {
-  font-size: 1rem;
-  margin-right: 12px;
-  opacity: 0.7;
-}
-
-.searchInput {
-  flex: 1;
-  background: transparent;
-  border: none;
   color: var(--text-primary);
-  font-size: 1rem;
-  font-family: 'DM Sans', sans-serif;
-  outline: none;
-}
-
-.clearBtn {
-  background: var(--bg-tertiary);
-  /* Matches your dark library theme */
-  border: none;
-  color: var(--text-secondary);
-  width: 28px;
-  height: 28px;
+  background: transparent;
+  height: 50px;
+  width: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-left: 8px;
+  transition: .3s ease);
+}
+
+.searchIcon:active {
+  background: var(--border);
+  transform: scale(.95);
+  opacity: .8;
+}
+
+.showcase {
+  scroll-snap-type: x mandatory;
+  display: flex;
+  width: 90%;
+  height: 200px;
+  gap: 12px;
+  overflow-x: auto;
+  margin: 0px auto;
+  scrollbar-width: none;
+  background: var(--bg-primary);
+}
+
+.showcaseItem {
+  width: 90%;
+  scroll-snap-align: start;
   flex-shrink: 0;
-  transition: all 0.2s ease;
-  padding: 0;
-  /* Ensures SVG centers correctly */
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+
+  height: 100%;
+  gap: 17px;
+  background: var(--bg-tertiary);
+  border-radius: 12px;
+  padding: 12px;
 }
 
-/* Make the icon pop when you touch it */
-.clearBtn:active {
+.pictureFrame {
+  flex: 2.3;
+  background: linear-gradient(135deg, #e8956d 0%, #c4713f 50%, #a0522d 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+  border-radius: 18px;
+}
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.wrapper {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 25%;
   background: var(--accent);
-  color: var(--bg-primary);
-  transform: scale(0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+}
+.details {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+
 }
 
-.clearBtn svg {
-  display: block;
+.showcaseTitle {
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: capitalize;
 }
+
+.showcaseDes {
+  font-size: .9rem;
+  opacity: .8;
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 100px;
+  z-index: 200;
+  background: var(--bg-primary);
+  padding: 20px 16px 12px;
+  border-top: 3px solid var(--border);
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+
 
 
 .filterBar {
@@ -84,23 +158,25 @@
   overflow-x: auto;
   padding-bottom: 4px;
   scrollbar-width: none;
+  scroll-snap-type: x mandatory;
   /* Hide scrollbar for clean look */
 }
 
-.filterBar::-webkit-scrollbar {
+::-webkit-scrollbar {
   display: none;
 }
 
 .filterBtn {
   white-space: nowrap;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border);
-  color: var(--text-secondary);
-  padding: 8px 16px;
-  border-radius: 20px;
+  background: var(--bg-primary);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 12px 16px;
+  border-radius: 10px;
   font-size: 0.85rem;
   font-weight: 500;
   transition: all 0.2s ease;
+  scroll-snap-align: start;
 }
 
 .filterBtnActive {
@@ -120,9 +196,11 @@
 
 .bookList {
   display: grid;
+  width: 90%;
+  margin: auto;
   grid-template-columns: 1fr;
   gap: 12px;
-  padding: 12px 16px;
+  padding: 12px 0px;
 }
 
 .emptyState {

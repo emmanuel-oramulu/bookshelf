@@ -2,7 +2,20 @@ import {
   useState,
   useEffect
 } from 'react';
-import PageTransition from '../components/PageTransition.jsx';
+import PageTransition from '../components/PageTransition';
+import ReadingStreak from '../components/ReadingStreak';
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid
+} from 'recharts';
 import styles from './Me.module.css';
 
 function Me( {
@@ -15,8 +28,8 @@ function Me( {
     setBio] = useState('Building my reading habit one book at a time 📖');
   const [editing,
     setEditing] = useState(false);
-    
-      // Update localStorage when name changes
+
+  // Update localStorage when name changes
   useEffect(() => {
     localStorage.setItem('profile_name', name);
   }, [name]);
@@ -38,9 +51,39 @@ function Me( {
     mePageRef.current.scrollTo({ top: 0, behavior: 'instant' });
   }
 }, []); */
+
+  // Inside Me component:
+  const statusData = [{
+    name: 'Reading',
+    value: reading
+  },
+    {
+      name: 'Completed',
+      value: completed
+    },
+    {
+      name: 'Want to Read',
+      value: wantToRead
+    },
+  ];
+
+  const COLORS = ['#e8956d',
+    '#6db86d',
+    '#6d9be8'];
+
+  // In your JSX:
+
+
+const genreCounts = books.reduce((acc, book) => {
+  acc[book.genre] = (acc[book.genre] || 0) + 1;
+  return acc;
+}, {});
+
+const genreData = Object.keys(genreCounts).map((genre) => ({
+  genre,
+  count: genreCounts[genre]
+}));
   
-
-
 
   return (
     <PageTransition>
@@ -120,6 +163,47 @@ function Me( {
       </div>
     </div>
 
+
+    <BarChart width={350} height={250} data={genreData}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="genre" />
+      <YAxis />
+      <Tooltip />
+      <Bar dataKey="count" fill="#6d9be8" radius={[6, 6, 0, 0]} />
+    </BarChart>
+
+    <PieChart width={320} height={320}>
+      <Pie
+        data={statusData}
+        cx="50%"
+        cy="50%"
+        innerRadius={70}
+        outerRadius={110}
+        paddingAngle={5}
+        dataKey="value"
+        >
+        {statusData.map((entry, index) => (
+          <Cell key={index} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+
+      <Tooltip
+        contentStyle={ {
+          borderRadius: '10px',
+          border: 'none'
+        }}
+        />
+
+      <Legend verticalAlign="bottom" height={36} />
+    </PieChart>
+    
+    {/* Streak */}
+    <div className={styles.section}>
+      <p className={styles.sectionLabel}>
+        Daily Streak
+      </p>
+      <ReadingStreak />
+    </div>
     {/* Favourite Genre */}
     <div className={styles.section}>
       <p className={styles.sectionLabel}>

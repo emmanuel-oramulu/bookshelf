@@ -1,0 +1,29 @@
+.progressBar {
+  position: relative;
+  display: inline-block;
+  margin: 10px  auto 10px 20px;
+  background: var(--bg-primary);
+}
+
+.background {
+  fill: none;
+  stroke: #ddd;
+  stroke-width: 10;
+}
+
+.progress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 10;
+  stroke-dasharray: 314;
+  transition: stroke-dashoffset 0.5s ease-in-out;
+}
+
+.progressText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+}

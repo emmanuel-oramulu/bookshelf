@@ -5,18 +5,44 @@
 }
 
 .greeting {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
+  font-family: Trebuchet MS;
+  font-size: 1.2rem;
   color: var(--text-primary);
   margin-bottom: 4px;
+}
+
+.headerText {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1px;
+  gap: 5px;
 }
 
 .greetingRow {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 32px;
+  margin-bottom: 1px;
   gap: 15px;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  width: 29ch;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid var(--text-primary);
+  animation: typing 5s steps(30) 0.3s 1 forwards /* alternate-reverse */;
+}
+
+@keyframes typing {
+  from {
+    width: 0ch;
+  }
 }
 
 .iconWrapper {
@@ -73,11 +99,29 @@
   }
 }
 
-.subtitle {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  margin-bottom: 32px;
+.searchBar {
+  height: 50px;
+  width: 100%;
+  background: var(--bg-tertiary);
+  border-radius: 30px;
+  margin: 0px 0px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding: 12px 15px;
+  gap: 10px;
+  transition: .4s ease;
 }
+.searchBar:active {
+  transform: scale(.95);
+  box-shadow: 10px 10px 60px black;
+}
+
+.placeholder {
+  font-size: 1.2rem;
+}
+
+
 
 /* Bento Stats */
 .statsGrid {
@@ -139,6 +183,11 @@
   padding: 16px;
   border-radius: 16px;
   margin-bottom: 12px;
+  transition: all .6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progressCard:hover {
+  transform: scale(1.02);
 }
 
 .progressMeta {
@@ -150,15 +199,28 @@
   font-size: 0.9rem;
   font-weight: 600;
 }
-.progressBar {
-  height: 6px;
-  background: var(--bg-tertiary);
+
+progress {
+  width: 100%;
+  height: 10px;
+  border: none;
   border-radius: 10px;
-  overflow: hidden;
+  background-color: var(--text-primary);
 }
-.progressFill {
-  height: 100%;
-  background: var(--accent);
+
+progress::-webkit-progress-bar {
+  background-color: var(--text-primary);
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: var(--accent);
+  border-radius: 10px;
+  transition: width .6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+progress::-moz-progress-bar {
+  background-color: var(--accent);
   border-radius: 10px;
 }
 

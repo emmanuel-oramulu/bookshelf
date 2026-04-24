@@ -1,25 +1,25 @@
 import styles from './ToastBar.module.css';
-
+const ICONS = {
+  success: '/success.png',
+  error: '/error.png',
+  warn: '/warn.png',
+}
 
 function ToastBar ( {
   msg, show, type
 }) {
-
-  const icon = type === 'success' ? '✅': type === 'error' ? '❌': type === 'warn' ? '⚠️': null;
-
+  const icon = ICONS[type];
 
   return (
-    <div className={`${styles.toastBar} ${show ? '': styles.show}`}>
-      <div className={styles.toastWrapper}>
-        <div className={styles.toastIcon}>
-          {icon}
-        </div>
-        <div className={styles.toastContent}>
-            {msg}
-        </div>
-      </div>
+    <div className={`${styles.toastBar} ${show ? '': styles.show}`} role="alert">
+      <div className={styles.toastWrapper} >
+        <img src='/success.png' alt="" key={type} className={styles.toastIcon} />
+      <p className={styles.toastMessage}>
+        {msg}
+      </p>
     </div>
-  );
+  </div>
+);
 }
 
 export default ToastBar;

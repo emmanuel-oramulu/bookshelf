@@ -18,9 +18,9 @@ function BookCard({ book }) {
         <div className={styles.detail}>
           <p className={styles.bookTitle}>{book.title}</p>
           <p className={styles.bookAuthor}>{book.author}</p>
-          <p className={styles.bookMeta}>Genre • {book.genre}</p>
+          {/*<p className={styles.bookMeta}>Genre • {book.genre}</p>
           <p className={styles.bookMeta}>Rating • {'⭐'.repeat(book.rating)}</p>
-          <p className={styles.bookMeta}>Year • {book.year}</p>
+          <p className={styles.bookMeta}>Year • {book.year}</p>*/}
           <p className={`${styles.bookStatus} ${STATUS_CLASS[book.status] || ''}`}>
             {book.status}
           </p>

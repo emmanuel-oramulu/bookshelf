@@ -1,15 +1,18 @@
 .bookCard {
-
-  backdrop-filter: blur(10px);
-  border: 1px dotted var(--border);
+  border-radius: 200px;
   border-radius: 20px;
-
-  padding: 12px;
+  padding: 7px 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
+  transition: 400ms ease-in-out;
 }
+
+.bookCard:active {
+  background: #f7ede73b;
+}
+
 
 .avatar {
   width: 65px;

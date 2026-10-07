@@ -1,50 +1,55 @@
 .streakWrapper {
-display: flex;
-align-items: center;
-background: rgba(255, 107, 0, 0.1); /* Subtle orange tint */
-padding: 6px 12px;
-border-radius: 50px;
-border: 1px solid rgba(255, 107, 0, 0.3);
-gap: 8px;
-transition: all 0.3s ease;
+  height: 70px;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 107, 0, 0.1);
+  /* Subtle orange tint */
+  padding: 6px 12px;
+  border-radius: 10px 0 10px 0;
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  gap: 8px;
+  transition: all 0.3s ease;
 }
 
 .flameIcon {
-font-size: 1.4rem;
+  font-size: 1.4rem;
 }
 
 .onFire {
-background: rgba(255, 107, 0, 0.25);
-box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
-transform: scale(1.05);
+  background: rgba(255, 107, 0, 0.25);
+  box-shadow: 0 0 15px rgba(255, 107, 0, 0.4);
+  transform: scale(1.05);
 }
 /* Flicker animation for high streaks */
 .onFire .flameIcon {
-animation: flicker 1s infinite alternate;
+  animation: flicker 1s infinite alternate;
 }
 @keyframes flicker {
-from {
-filter: drop-shadow(0 0 2px orange); transform: scale(1);
-}
-to {
-filter: drop-shadow(0 0 8px red); transform: scale(1.2);
-}
+  from {
+    filter: drop-shadow(0 0 2px orange);
+    transform: scale(1);
+  }
+  to {
+    filter: drop-shadow(0 0 8px red);
+    transform: scale(1.2);
+  }
 }
 
 .textStack {
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .count {
-font-weight: 900;
-font-size: 1rem;
-line-height: 1;
-color: #ff6b00;
+  font-weight: 900;
+  font-size: 1rem;
+  line-height: 1;
+  color: #ff6b00;
 }
 
 .label {
-font-size: 0.6rem;
-letter-spacing: 1px;
-opacity: 0.8;
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  opacity: 0.8;
 }

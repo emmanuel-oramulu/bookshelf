@@ -1,6 +1,7 @@
 import {
   useState,
-  useEffect
+  useEffect,
+  useRef
 } from 'react';
 import {
   useParams,
@@ -16,24 +17,43 @@ import PageTransition from '../components/PageTransition';
 import BookEditForm from '../components/BookEditForm';
 import styles from './BookDetail.module.css';
 
+function useClickOutside(handler) {
+  const ref = useRef();
+  useEffect(() => {
+    function listener(e) {
+      if (!ref.current?.contains(e.target)) handler();
+    }
+    document.addEventListener('click', listener);
+    return () => document.removeEventListener('click', listener);
+  },
+    [handler]);
+  return ref;
+}
 
 
 function BookDetail( {
-  books, setBooks, updateBook
+  books,
+  setBooks,
+  updateBook
 }) {
   const {
     showToast
   } = useToast();
   const navigate = useNavigate();
+
+  const [show, setShow] = useState(false);
+  const ref = useClickOutside(() => {
+    setShow(false);
+  });
+
   const {
     id
   } = useParams();
-  const book = books.find(book => book.id === Number(id));
+  const book = [...books].find(book => book.id === Number(id));
 
   const [editing,
     setEditing] = useState(false);
-  const [menu,
-    setMenu] = useState(false);
+  // const [menu, setMenu] = useState(false);
 
 
   function startEdit() {
@@ -64,7 +84,7 @@ function BookDetail( {
   return (
     <PageTransition>
       <div className={styles.bookDetailPage}>
-        <Header title={book.title} setMenu={setMenu} />
+        <Header title={book.title} setShow={setShow} />
 
         {editing ? (<BookEditForm book={book} setEditing={setEditing} updateBook={updateBook} />): (
           <div className={styles.bookPageSections}>
@@ -99,6 +119,10 @@ function BookDetail( {
                   {
                     label: 'Year', value: book.year
                   }, {
+                    label: 'Added', value: book.added
+                  }, {
+                    label: 'Start', value: book.startDate
+                  }, {
                     label: "Pages", value: book.totalPages
                   }, {
                     label: 'Current page', value: book.currentPage
@@ -112,28 +136,30 @@ function BookDetail( {
                         {item.value}
                       </p>
                     </div>
-                  ))} < /div> < div className = {`
-                ${styles.menu} ${!menu ? styles.collapse: ""}`} >
-                <button className={styles.deleteButton} onClick={handleDelete}>🗑️ Delete</button>
-                <button className={styles.editButton} onClick={startEdit}>✏️ Edit Details</button>
-              </div>
-            </section>
+                  ))} < /div>
+                {show ? (<div className={`
+                  ${styles.menu} ${!menu ? styles.collapse: ""}`} ref={ref}>
+                  <button className={styles.deleteButton} onClick={handleDelete}>🗑️ Delete</button>
+                  <button className={styles.editButton} onClick={startEdit}>✏️ Edit Details</button>
+                </div>
+                ): null}
+              </section>
               <div className={styles.sectionThree}>
                 <ProgressBar book={book} />
               </div>
-            < /div>
-            )}
-          </div>
-        </PageTransition>
-      );
-      }
+              < /div>
+              )}
+            </div>
+          </PageTransition>
+        );
+        }
 
-      export default BookDetail;
+        export default BookDetail;
 
-      /* {
-      book.fileUrl && (
-        <iframe
-          src={book.fileUrl}
-          className={styles.pdfViewer}
-          />
-      )} */
+        /* {
+        book.fileUrl && (
+          <iframe
+            src={book.fileUrl}
+            className={styles.pdfViewer}
+            />
+        )} */

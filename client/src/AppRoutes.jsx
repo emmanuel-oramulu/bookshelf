@@ -1,9 +1,10 @@
-import {
-  useRoutes,
-  useLocation
-} from 'react-router';
-import Navbar from './components/Navbar.jsx';
+import { useRoutes, useLocation } from 'react-router';
+import ProtectedRoute from './components/ProtectedRoute';
+import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import SplashScreen from './pages/SplashScreen';
+import WelcomeSlides from './pages/WelcomeSlides';
+import AuthPage from './pages/AuthPage';
 import Books from './pages/Books';
 import AddBook from './pages/AddBook';
 import Notifications from './pages/Notifications';
@@ -12,38 +13,94 @@ import Me from './pages/Me';
 import Settings from './pages/Settings';
 import Search from './pages/Search';
 
-const HIDE_NAVBAR = ['/notifications', '/settings', '/search'];
+const HIDE_NAVBAR = [
+  '/notifications',
+  '/settings',
+  '/search',
+  '/auth',
+  '/welcome',
+  '/splash',
+];
 
-function AppRoutes( {
-  books, addBook, setBooks, updateBook
-}) {
+function AppRoutes({ books, addBook, setBooks, updateBook }) {
   const location = useLocation();
-  const routes = useRoutes([{
-    path: '/', element: <Home books={books} />
-  },
+
+  const routes = useRoutes([
+    // Public routes — no auth needed
+    { path: '/splash', element: <SplashScreen /> },
+    { path: '/welcome', element: <WelcomeSlides /> },
+    { path: '/auth', element: <AuthPage /> },
+
+    // Protected routes — must be logged in
     {
-      path: '/books', element: <Books books={books} />
+      path: '/',
+      element: (
+        <ProtectedRoute>
+          <Home books={books} />
+        </ProtectedRoute>
+      ),
     },
     {
-      path: '/books/:id', element: <BookDetail books={books} setBooks={setBooks} updateBook={updateBook} />
+      path: '/books',
+      element: (
+        <ProtectedRoute>
+          <Books books={books} />
+        </ProtectedRoute>
+      ),
     },
     {
-      path: '/add', element: <AddBook onAdd={addBook} />
+      path: '/books/:id',
+      element: (
+        <ProtectedRoute>
+          <BookDetail books={books} setBooks={setBooks} updateBook={updateBook} />
+        </ProtectedRoute>
+      ),
     },
     {
-      path: '/me', element: <Me books={books} />
+      path: '/add',
+      element: (
+        <ProtectedRoute>
+          <AddBook onAdd={addBook} />
+        </ProtectedRoute>
+      ),
     },
     {
-      path: '/notifications', element: <Notifications />
+      path: '/me',
+      element: (
+        <ProtectedRoute>
+          <Me books={books} />
+        </ProtectedRoute>
+      ),
     },
     {
-      path: '/settings', element: <Settings />
+      path: '/notifications',
+      element: (
+        <ProtectedRoute>
+          <Notifications />
+        </ProtectedRoute>
+      ),
     },
     {
-      path: '/search', element: <Search books={books} />},
+      path: '/settings',
+      element: (
+        <ProtectedRoute>
+          <Settings />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: '/search',
+      element: (
+        <ProtectedRoute>
+          <Search books={books} />
+        </ProtectedRoute>
+      ),
+    },
   ]);
 
-  const showNavbar = !HIDE_NAVBAR.some(path => location.pathname.startsWith(path)) && !location.pathname.match(/^\/books\/\d+/);
+  const showNavbar =
+    !HIDE_NAVBAR.some((path) => location.pathname.startsWith(path)) &&
+    !location.pathname.match(/^\/books\/.+/);
 
   return (
     <>

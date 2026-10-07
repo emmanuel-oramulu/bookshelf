@@ -6,7 +6,7 @@ const StreakBadge = ({
   if (count === 0) return null;
 
   return (
-    <div className={`${styles.streakWrapper} ${count > 5 ? styles.onFire: ''}`}>
+    <div className={`${styles.streakWrapper} ${count > 0 ? styles.onFire: ''}`}>
       <span className={styles.flameIcon}>🔥</span>
       <div className={styles.textStack}>
         <span className={styles.count}>{count}</span>

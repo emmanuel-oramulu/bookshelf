@@ -9,11 +9,14 @@ import {
 import PageTransition from '../components/PageTransition';
 import handlePdfUpload from '../components/PdfPageCounter';
 import {
+  capitalizeFirstLetter
+} from '../utils/capitalizeFirstLetter.js'
+import {
   useToast
 } from '../ToastContext';
 import styles from './AddBook.module.css';
 
-const GENRES = ['Programming', 'Self Help', 'Spiritual', 'Fiction', 'Non-Fiction', 'Science', 'Philosophy'];
+const GENRES = ['Programming', 'Fiction', 'Non-Fiction', 'Science', 'History', 'Biography', 'Philosophy', 'Poetry', 'Self-Help', 'Spiritual', 'Other'];
 const STATUSES = ['Reading', 'Completed', 'Want to Read'];
 
 function AddBook( {
@@ -30,10 +33,12 @@ function AddBook( {
       author: '',
       genre: GENRES[0],
       status: 'Want to Read',
+      notes: '',
       totalPages: '',
-      currentPage: 'null',
-      startDate: 'null',
+      currentPage: 0,
+      startDate: (new Date().toLocaleString().split(', ')[0]),
       rating: 0,
+      added: (new Date().toLocaleString().split(', ')[0]),
       year: new Date().getFullYear().toString(),
       fileUrl: '',
     });
@@ -100,8 +105,8 @@ function AddBook( {
       ...form,
       id: Date.now(),
       rating: Number(form.rating),
-      title: form.title.trim(),
-      author: form.author.trim(),
+      title: capitalizeFirstLetter(form.title.trim()),
+      author: capitalizeFirstLetter(form.author.trim()),
       currentPage,
       totalPages
     };
@@ -253,8 +258,19 @@ function AddBook( {
   </div>
 </div>
 )}
-
-
+<div className={styles.section}>
+<label className={styles.label}>Notes</label>
+<div className={styles.inputGroup}>
+<textarea
+name="notes"
+id="notes"
+value={form.notes}
+onChange={handleChange}
+placeholder="Notes (optional)..."
+className={styles.textarea}
+/>
+</div>
+</div>
 {/* Star Rating */}
 <div className={styles.section}>
 <label className={styles.label}>Initial Rating</label>

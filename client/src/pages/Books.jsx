@@ -19,16 +19,45 @@ const FILTER_LABELS = {
   'Want to Read': '🔖 Want to Read',
 };
 
+const SORT_LABELS = [{
+  key: '',
+  label: 'Default'
+}, {
+  key: 'rating',
+  label: '⭐ Rating'
+}, {
+  key: 'year',
+  label: '📅 Year'
+}, {
+  key: 'title',
+  label: '🔤 Title'
+}]
+
 function Books( {
   books
 }) {
   const navigate = useNavigate();
   const [filter,
     setFilter] = useState('All');
+  const [sortBy,
+    setSortBy] = useState('');
 
-  const filtered = books.filter(book => filter === 'All' || book.status === filter);
+  const filtered = [...books]
+  .filter(book => filter === 'All' || book.status === filter)
+  .sort((a, b) => {
+    switch (sortBy) {
+      case "rating":
+        return b.rating - a.rating;
+      case "year":
+        return b.year - a.year;
+      case "title":
+        return a.title.localeCompare(b.title);
+      default:
+        return 0;
+    }
+  });
 
-  const showcaseBooks = books.reverse().slice(0, 3);
+  const showcaseBooks = [...books].reverse().slice(0, 3);
 
   return (
     <PageTransition>
@@ -78,6 +107,18 @@ function Books( {
               </button>
             ))}
           </div>
+          <div className={styles.sortBar}>
+            <span className={styles.sortLabel}>Sort:</span>
+            {SORT_LABELS.map(opt => (
+              <button
+                key={opt.key}
+                className={`${styles.filterBtn} ${opt.key === sortBy ? styles.filterBtnActive: ''}`}
+
+                onClick={() => setSortBy(opt.key)}>
+                {opt.label}
+                 </button>
+            ))}
+          </div>
         </div>
 
         <div className={styles.resultsInfo}>
@@ -103,7 +144,6 @@ function Books( {
             ))
           )}
         </div>
-        <progress value={75} max={100} />
       </div>
     </PageTransition>
   );

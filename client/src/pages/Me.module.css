@@ -1,7 +1,6 @@
 .mePage {
   min-height: 100vh;
-  padding: 24px 20px 100px;
-  min-height: 100vh;
+  padding: 24px 10px 100px;
   background-image: radial-gradient(circle, #4a3428 1px, transparent 1px);
   background-attachment: fixed;
   background-size: 20px 20px;
@@ -131,11 +130,11 @@
 }
 
 .sectionLabel {
-  font-size: 0.75rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 10px;
 }
 
@@ -179,24 +178,37 @@
   text-align: center;
 }
 
-.genreCard {
+.insightRow {
+  display: flex;
+  gap: 10px;
+}
+
+.insightCard {
+  flex: 1;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 20px;
   display: flex;
+  flex-flow: column nowrap;
   align-items: center;
-  gap: 16px;
+  gap: 4px;
 }
 
-.genreIcon {
+.insightIcon {
   font-size: 2rem;
 }
-
-.genreText {
+.insightLabel {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.insightValue {
   color: var(--text-primary);
   font-size: 1.1rem;
   font-weight: 600;
+  text-align: center;
 }
 
 .aboutCard {
@@ -225,4 +237,11 @@
   color: var(--border);
   font-size: 0.75rem;
   margin-top: 4px;
+}
+
+
+@media (min-width: 768px) {
+  .mePage {
+    padding-left: 260px;
+  }
 }
